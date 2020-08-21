@@ -17,7 +17,7 @@ orbs:
 workflows:
   node-tests:
     jobs:
-      - test
+      - build/test:
         filters:
           branches:
             only: 
