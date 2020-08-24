@@ -9,7 +9,7 @@ jobs:
     steps:
       - checkout
       - run: sudo apt-get install postgresql-client-9.6
-      - run: psql -U postgres -a -f src/test/sample-db/dvdrental/restore.sql
+      - run: psql -U postgres -a -f ~/project/src/test/sample-db/dvdrental/restore.sql
       - node/install-packages:
           cache-path: ~/project/node_modules
           override-ci-command: npm install
