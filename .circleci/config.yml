@@ -9,7 +9,10 @@ jobs:
           cache-path: ~/project/node_modules
           override-ci-command: npm install
       - run: npm run compile
-      - store_test_results
+      - store_artifacts:
+        path: out
+      - store_test_results:
+        path: /
       - run: npm run test
 orbs:
   node: circleci/node@3.0.0
