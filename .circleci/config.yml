@@ -9,6 +9,13 @@ jobs:
     steps:
       - checkout
       - run: sudo apt-get update && sudo apt-get install postgresql
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Running Test
+          command: |
+            psql -c "create database test" -U postgres
       - run: psql < src/test/sample-db/dvdrental/restore.sql
       - node/install-packages:
           cache-path: ~/project/node_modules
