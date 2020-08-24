@@ -13,9 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "get-installed-path": "^4.0.8",
-    "pg": "^8.2.1",
-    "typescript": "^3.9.5"
+    "pg": "^8.2.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",
@@ -24,6 +22,10 @@
     "chai": "^4.2.0",
     "eslint": "^7.2.0",
     "jest": "^26.0.1",
-    "ts-jest": "^26.1.0"
-  }
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.5"
+  },
+  "files": [
+    "out"
+  ]
 }
