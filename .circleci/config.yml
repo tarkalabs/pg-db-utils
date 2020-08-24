@@ -13,7 +13,7 @@ jobs:
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
-      - run: sudo -h postgres psql -f src/test/sample-db/dvdrental/restore.sql -h localhost
+      - run: psql -f src/test/sample-db/dvdrental/restore.sql -h localhost
       - node/install-packages:
           cache-path: ~/project/node_modules
           override-ci-command: npm install
