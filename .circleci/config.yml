@@ -15,7 +15,7 @@ jobs:
 orbs:
   node: circleci/node@3.0.0
 workflows:
-  dbutils-build/test:
+  dbutils-build:
     jobs:
       - build-test:
         filters:
