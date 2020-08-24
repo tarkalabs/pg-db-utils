@@ -6,14 +6,14 @@ jobs:
       - image: circleci/postgres:9.6.2-alpine
         environment:
           PGHOST: 127.0.0.1
-          POSTGRES_USER: postgres
+          POSTGRES_USER: dev
     steps:
       - checkout
       - run: sudo apt-get update && sudo apt-get install postgresql
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
-      - run: psql -f src/test/sample-db/dvdrental/restore.sql -h localhost
+      - run: psql -U dev -f src/test/sample-db/dvdrental/restore.sql -h localhost
       - node/install-packages:
           cache-path: ~/project/node_modules
           override-ci-command: npm install
