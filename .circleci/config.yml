@@ -9,11 +9,18 @@ jobs:
           cache-path: ~/project/node_modules
           override-ci-command: npm install
       - run: npm run compile
-      - run: npm run test
-      - store_artifacts:
-            path: test-results
+      - run:
+          name: Install JUnit coverage reporter
+          command: yarn add --dev jest-junit
+      - run:
+          name: Run tests with JUnit as reporter
+          command: jest --ci --runInBand --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
       - store_test_results:
-            path: test-results
+          path: ./reports/junit/
+      - store_artifacts:
+          path: ./reports/junit
 orbs:
   node: circleci/node@3.0.0
 workflows:
