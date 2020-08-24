@@ -8,10 +8,8 @@ jobs:
       - node/install-packages:
           cache-path: ~/project/node_modules
           override-ci-command: npm install
-      - run:
-        command: npm run compile
-      - run:
-        command: jest
+      - run: npm run compile
+      - run: jest
 orbs:
   node: circleci/node@3.0.0
 workflows:
