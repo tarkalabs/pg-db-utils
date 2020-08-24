@@ -9,6 +9,7 @@ jobs:
           cache-path: ~/project/node_modules
           override-ci-command: npm install
       - run: npm run compile
+      - run: npm install -g jest
       - run: jest
 orbs:
   node: circleci/node@3.0.0
