@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  build/test:
+  build-test:
     docker: 
       - image: circleci/node:latest
     steps:
@@ -15,9 +15,9 @@ jobs:
 orbs:
   node: circleci/node@3.0.0
 workflows:
-  node-tests:
+  dbutils-build/test:
     jobs:
-      - build/test:
+      - build-test:
         filters:
           branches:
             only: 
