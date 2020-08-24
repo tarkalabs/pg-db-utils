@@ -9,7 +9,7 @@ jobs:
     steps:
       - checkout
       - run: sudo apt-get update && sudo apt-get install postgresql
-      - run: psql < ~/project/src/test/sample-db/dvdrental/restore.sql
+      - run: psql < src/test/sample-db/dvdrental/restore.sql
       - node/install-packages:
           cache-path: ~/project/node_modules
           override-ci-command: npm install
