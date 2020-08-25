@@ -1,16 +1,17 @@
 {
   "name": "db-utils",
   "version": "1.0.0",
-  "description": "",
+  "description": "Utilities for reflecting on postgresql schema",
+  "homepage": "https://github.com/tarkalabs/pg-db-utils",
   "main": "./out/index.js",
   "types": "./out/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tsc -p ./"
   },
-  "keywords": [],
+  "keywords": ["postgresql", "schema", "reflection", "graphql"],
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "get-installed-path": "^4.0.8",
     "pg": "^8.2.1",
