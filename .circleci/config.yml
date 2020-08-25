@@ -13,7 +13,7 @@ jobs:
       - run:
           name: Wait for db
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
-      - run: createdb -h localhost && psql -U dev -f src/test/sample-db/dvdrental/restore.sql -h localhost
+      - run: createdb -U dev -h localhost dvdrental && psql -U dev -d dvdrental -f src/test/sample-db/dvdrental/restore.sql -h localhost
       - node/install-packages:
           cache-path: ~/project/node_modules
           override-ci-command: npm install
