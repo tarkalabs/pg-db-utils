@@ -13,7 +13,7 @@ jobs:
           command: npm run compile
       - save_cache:
           paths:
-            - ~/project
+            - ~/project/out
           key: build-{{ checksum "package.json" }}
   test:
     docker:
@@ -23,6 +23,7 @@ jobs:
           PGHOST: 127.0.0.1
           POSTGRES_USER: dev
     steps:
+      - checkout
       - restore_cache:
           keys:
             - build-{{ checksum "package.json" }}
@@ -75,4 +76,5 @@ workflows:
           filters:
             tags:
               only: /^v[0-9]+(\.[0-9]+)*$/
-        
+            branches:
+              ignore: /.*/
