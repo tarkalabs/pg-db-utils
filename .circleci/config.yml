@@ -62,10 +62,7 @@ orbs:
 workflows:
   dbutils-test:
     jobs:
-      - build:
-          filters:
-            branches:
-              only: master
+      - build
       - test:
           requires:
             - build
