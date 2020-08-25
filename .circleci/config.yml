@@ -66,6 +66,9 @@ workflows:
       - test:
           requires:
             - build
+          filters:
+            branches:
+              only: master
   dbutils-publish:
     jobs:
       - publish:
