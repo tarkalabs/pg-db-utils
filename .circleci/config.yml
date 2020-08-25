@@ -14,7 +14,7 @@ jobs:
       - save_cache:
           paths:
             - ~/project
-          key: latest-build
+          key: build-$CHECKOUT_KEY
   test:
     docker:
       - image: circleci/node:latest
@@ -25,7 +25,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - latest-build
+            - build-$CHECKOUT_KEY
       - run: 
           name: Install Postgresql Cli
           command: sudo apt-get update && sudo apt-get install postgresql
@@ -50,7 +50,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - latest-build
+            - build-$CHECKOUT_KEY
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/project/.npmrc
