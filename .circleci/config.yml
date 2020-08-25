@@ -1,5 +1,20 @@
 version: 2.1
 jobs:
+  build:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - node/install-packages:
+           cache-path: ~/project/node_modules
+           override-ci-command: npm install
+      - run: 
+          name: Compile Db-Utils
+          command: npm run compile
+      - save_cache:
+          paths:
+            - ~/project
+          key: latest-build
   test:
     docker:
       - image: circleci/node:latest
@@ -8,28 +23,12 @@ jobs:
           PGHOST: 127.0.0.1
           POSTGRES_USER: dev
     steps:
-      - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-      - run:
-          name: Install Packages
-          command: npm install
-      - run: 
-          name: Compile Db-Utils
-          command: npm run compile
-      - run:
-          name: Install JUnit coverage reporter
-          command: yarn add --dev jest-junit
+            - latest-build
       - run: 
           name: Install Postgresql Cli
           command: sudo apt-get update && sudo apt-get install postgresql
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
       - run:
           name: Wait for Postgresql to Initialize
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
@@ -45,15 +44,13 @@ jobs:
           path: ./reports/junit/
       - store_artifacts:
           path: ./reports/junit
-      - persist_to_workspace:
-          root: ~/project
-          paths: .
   publish:
     docker: 
       - image: circleci/node:latest
     steps:
-      - attach_workspace:
-          at: ~/project
+      - restore_cache:
+          keys:
+            - latest-build
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/project/.npmrc
@@ -63,12 +60,17 @@ jobs:
 orbs:
   node: circleci/node@3.0.0
 workflows:
-  dbutils-build:
+  dbutils-test:
     jobs:
+      - build
       - test:
-        filters:
-          tags:
-            only: /^v[0-9]+(\.[0-9]+)*$/
-      - publish:
           requires:
-            - test
+            - build
+  dbutils-publish:
+    jobs:
+      - publish:
+          filters:
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*$/
+            branches:
+              ignore: /.*/
