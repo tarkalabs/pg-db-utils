@@ -1,0 +1,74 @@
+version: 2.1
+jobs:
+  test:
+    docker:
+      - image: circleci/node:latest
+      - image: circleci/postgres:9.6.2-alpine
+        environment:
+          PGHOST: 127.0.0.1
+          POSTGRES_USER: dev
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run:
+          name: Install Packages
+          command: npm install
+      - run: 
+          name: Compile Db-Utils
+          command: npm run compile
+      - run:
+          name: Install JUnit coverage reporter
+          command: yarn add --dev jest-junit
+      - run: 
+          name: Install Postgresql Cli
+          command: sudo apt-get update && sudo apt-get install postgresql
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Wait for Postgresql to Initialize
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run: 
+          name: Create and Populate dvdrental Database
+          command: createdb -U dev -h localhost dvdrental && psql -U dev -d dvdrental -f src/test/sample-db/dvdrental/restore.sql -h localhost
+      - run:
+          name: Run tests with JUnit as reporter
+          command: npm run test:ci
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
+      - store_test_results:
+          path: ./reports/junit/
+      - store_artifacts:
+          path: ./reports/junit
+      - persist_to_workspace:
+          root: ~/project
+          paths: .
+  publish:
+    docker: 
+      - image: circleci/node:latest
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/project/.npmrc
+      - run:
+          name: Publish package
+          command: npm publish --access public
+orbs:
+  node: circleci/node@3.0.0
+workflows:
+  dbutils-build:
+    jobs:
+      - test:
+        filters:
+          tags:
+            only: /^v[0-9]+(\.[0-9]+)*$/
+      - publish:
+          requires:
+            - test

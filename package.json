@@ -1,21 +1,20 @@
 {
-  "name": "db-utils",
-  "version": "1.0.0",
+  "name": "@tarkalabs/pg-db-utils",
+  "version": "1.0.3",
   "description": "Utilities for reflecting on postgresql schema",
   "homepage": "https://github.com/tarkalabs/pg-db-utils",
   "main": "./out/index.js",
   "types": "./out/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:ci": "jest --ci --runInBand --reporters=default --reporters=jest-junit",
     "compile": "tsc -p ./"
   },
   "keywords": ["postgresql", "schema", "reflection", "graphql"],
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "get-installed-path": "^4.0.8",
-    "pg": "^8.2.1",
-    "typescript": "^3.9.5"
+    "pg": "^8.2.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",
@@ -24,6 +23,10 @@
     "chai": "^4.2.0",
     "eslint": "^7.2.0",
     "jest": "^26.0.1",
-    "ts-jest": "^26.1.0"
-  }
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.5"
+  },
+  "files": [
+    "out"
+  ]
 }
