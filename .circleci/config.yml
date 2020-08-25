@@ -11,10 +11,11 @@ jobs:
       - run: 
           name: Compile Db-Utils
           command: npm run compile
+      - run: echo "$CIRCLE_SHA1" > _tmp_file
       - save_cache:
           paths:
             - ~/project
-          key: latest-build
+          key: build-{{ checksum "_tmp_file" }}
   test:
     docker:
       - image: circleci/node:latest
@@ -23,9 +24,10 @@ jobs:
           PGHOST: 127.0.0.1
           POSTGRES_USER: dev
     steps:
+      - run: echo "$CIRCLE_SHA1" > _tmp_file
       - restore_cache:
           keys:
-            - latest-build
+            - build-{{ checksum "_tmp_file" }}
       - run: 
           name: Install Postgresql Cli
           command: sudo apt-get update && sudo apt-get install postgresql
@@ -48,9 +50,10 @@ jobs:
     docker: 
       - image: circleci/node:latest
     steps:
+      - run: echo "$CIRCLE_SHA1" > _tmp_file
       - restore_cache:
           keys:
-            - latest-build
+            - build-{{ checksum "_tmp_file" }}
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/project/.npmrc
