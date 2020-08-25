@@ -14,9 +14,9 @@ jobs:
             - v1-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - node/install-packages:
-          cache-path: ~/project/node_modules
-          override-ci-command: npm install
+      - run:
+          name: Install Packages
+          command: npm install
       - run: 
           name: Compile Db-Utils
           command: npm run compile
@@ -56,7 +56,7 @@ jobs:
           at: ~/project
       - run:
           name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/project/.npmrc
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/project/.npmrc
       - run:
           name: Publish package
           command: npm publish --access public
