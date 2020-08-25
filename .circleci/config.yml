@@ -2,12 +2,13 @@ version: 2.1
 defaults: &defaults
   docker: 
     - image: circleci/node:latest
-    - image: circleci/postgres:9.6.2-alpine
-      environment:
-        PGHOST: 127.0.0.1
-        POSTGRES_USER: dev
 jobs:
-  build-test:
+  test:
+    docker:
+      - image: circleci/postgres:9.6.2-alpine
+        environment:
+          PGHOST: 127.0.0.1
+          POSTGRES_USER: dev
     <<: *defaults
     steps:
       - checkout
@@ -60,17 +61,17 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/project/.npmrc
       - run:
           name: Publish package
-          command: npm publish
+          command: npm publish --access public
 orbs:
   node: circleci/node@3.0.0
 workflows:
   dbutils-build:
     jobs:
-      - build-test:
+      - test:
         filters:
           branches:
             only: 
               - master
       - publish:
           requires:
-            - build-test
+            - test

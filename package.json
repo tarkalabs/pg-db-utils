@@ -1,5 +1,5 @@
 {
-  "name": "db-utils",
+  "name": "@tarkalabs/pg-db-utils",
   "version": "1.0.0",
   "description": "",
   "main": "./out/index.js",
