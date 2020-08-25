@@ -11,6 +11,7 @@ jobs:
       - run: 
           name: Compile Db-Utils
           command: npm run compile
+      - run: echo $CIRCLE_SHA1
       - run: echo "$CIRCLE_SHA1" > _tmp_file
       - save_cache:
           paths:
@@ -24,6 +25,7 @@ jobs:
           PGHOST: 127.0.0.1
           POSTGRES_USER: dev
     steps:
+      - run: echo $CIRCLE_SHA1
       - run: echo "$CIRCLE_SHA1" > _tmp_file
       - restore_cache:
           keys:
@@ -50,6 +52,7 @@ jobs:
     docker: 
       - image: circleci/node:latest
     steps:
+      - run: echo $CIRCLE_SHA1
       - run: echo "$CIRCLE_SHA1" > _tmp_file
       - restore_cache:
           keys:

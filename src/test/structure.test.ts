@@ -31,6 +31,7 @@ describe("structure", () => {
     console.log(str);
     //*/
 
+
     expect([]).to.eql([]);
     done();
   })
