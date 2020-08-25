@@ -13,8 +13,8 @@ jobs:
           command: npm run compile
       - save_cache:
           paths:
-            - ~/project/out
-          key: build-{{ checksum "package.json" }}
+            - ~/project
+          key: latest-build
   test:
     docker:
       - image: circleci/node:latest
@@ -23,13 +23,9 @@ jobs:
           PGHOST: 127.0.0.1
           POSTGRES_USER: dev
     steps:
-      - checkout
       - restore_cache:
           keys:
-            - build-{{ checksum "package.json" }}
-      - node/install-packages:
-           cache-path: ~/project/node_modules
-           override-ci-command: npm install
+            - latest-build
       - run: 
           name: Install Postgresql Cli
           command: sudo apt-get update && sudo apt-get install postgresql
@@ -54,7 +50,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - build-{{ checksum "package.json" }}
+            - latest-build
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/project/.npmrc
