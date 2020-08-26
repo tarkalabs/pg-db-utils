@@ -15,7 +15,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:        
+    steps:       
+      - run: echo ${{ secrets.NPM_TOKEN }} 
       - name: Check out repository code
         uses: actions/checkout@v2
 
@@ -93,7 +94,7 @@ jobs:
           name: pg-db-utils_build_latest
 
       - name: Add NPM AUTH TOKEN to the .npmrc because of Github Actions bug
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
   
       - name: Publish latest version of pg-db-utils
         run: npm publish --access public
