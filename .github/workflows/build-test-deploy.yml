@@ -44,8 +44,8 @@ jobs:
           
       - name: Create and Populate dvdrental Database
         run: |
-          createdb -U dev -h localhost dvdrental
-          psql -U dev -d dvdrental -f src/test/sample-db/dvdrental/restore.sql -h localhost
+          createdb -h postgres dvdrental
+          psql -d dvdrental -f src/test/sample-db/dvdrental/restore.sql -h postgres
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: "postgres"
