@@ -35,6 +35,9 @@ jobs:
   
       - name: Check out repository code
         uses: actions/checkout@v2
+        
+      - name: ff
+        run: ls ./src/test/sample-db/dvdrental -la
 
       - name: Populate dvdrental Database 
         run: psql -d dvdrental -f ./src/test/sample-db/dvdrental/restore.sql
