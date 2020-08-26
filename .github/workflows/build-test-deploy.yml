@@ -17,10 +17,10 @@ jobs:
     container: node:10.18-jessie
     services:
       postgres:
-        image: postgres:12
+        image: postgis/postgis:10-2.5
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          # must specify password for PG Docker container image, see: https://registry.hub.docker.com/_/postgres?tab=description&page=1&name=10
+          POSTGRES_PASSWORD: password
           POSTGRES_DB: dvdrental
         ports:
           - 5432:5432
