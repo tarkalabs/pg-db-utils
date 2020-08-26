@@ -19,8 +19,8 @@ jobs:
       postgres:
         image: postgres:11-alpine
         env:
-          POSTGRES_USER: dev
-          POSTGRES_PASSWORD: ""
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: "postgres"
           POSTGRES_DB: dvdrental
         options: >-
           --health-cmd pg_isready
@@ -47,8 +47,8 @@ jobs:
           createdb -U dev -h localhost dvdrental
           psql -U dev -d dvdrental -f src/test/sample-db/dvdrental/restore.sql -h localhost
         env:
-          POSTGRES_USER: dev
-          POSTGRES_PASSWORD: ""
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: "postgres"
           POSTGRES_DB: dvdrental
         
       - name: Run tests with JUnit as reporter
