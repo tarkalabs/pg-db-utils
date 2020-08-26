@@ -37,14 +37,14 @@ jobs:
         uses: actions/checkout@v2
         
       - name: ff
-        run: ls ./src/test/sample-db/dvdrental -la
+        run: psql -h /tmp
 
       - name: Populate dvdrental Database 
-        run: psql -d dvdrental -f ./src/test/sample-db/dvdrental/restore.sql
+        run: psql -d dvdrental -f ~/src/test/sample-db/dvdrental/restore.sql
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTEGRES_HOST: 127.0.0.1
+          POSTEGRES_HOST: localhost
           POSTGRES_DB: dvdrental
         
       - uses: c-hive/gha-npm-cache@v1
