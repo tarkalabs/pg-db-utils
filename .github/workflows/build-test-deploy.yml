@@ -19,7 +19,7 @@ jobs:
         image: postgis/postgis:10-2.5
         env:
           # must specify password for PG Docker container image, see: https://registry.hub.docker.com/_/postgres?tab=description&page=1&name=10
-          POSTGRES_PASSWORD: password
+          POSTGRES_PASSWORD: postgres
           POSTGRES_DB: dvdrental
         ports:
           - 5432:5432
@@ -34,7 +34,7 @@ jobs:
         run: psql -d postgresql://postgres@localhost/dvdrental -f restore.sql
         working-directory: ./src/test/sample-db/dvdrental
         env:
-          PGPASSWORD: password
+          PGPASSWORD: postgres
           CI_ENV: true
         
       - uses: c-hive/gha-npm-cache@v1
