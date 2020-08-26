@@ -35,13 +35,9 @@ jobs:
   
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: test
-        run: ls -la
-      - name: test
-        run: ~/ls -la
 
       - name: Populate dvdrental Database 
-        run: psql -d dvdrental -f src/test/sample-db/dvdrental/restore.sql
+        run: psql -d dvdrental -f ./src/test/sample-db/dvdrental/restore.sql
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
