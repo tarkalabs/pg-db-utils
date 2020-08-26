@@ -15,33 +15,37 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: node:10.18-jessie
-    #services:
-    #  postgres:
-    #    image: postgres:11-alpine
-    #    env:
-    #      POSTGRES_USER: postgres
-    #      POSTGRES_PASSWORD: "postgres"
-    #      POSTGRES_DB: dvdrental
-    #    options: >-
-    #      --health-cmd pg_isready
-    #      --health-interval 10s
-    #      --health-timeout 5s
-    #      --health-retries 5
+    services:
+      postgres:
+        # Docker Hub image
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+            # Maps tcp port 5432 on service container to the host
+          - 5432:5432
 
     steps:
       - name: Install Postgres CLI
         run: |
           apt-get update -y
           apt-get install -y libpq-dev postgresql-client
-      - name: Create dvdrental Database
-        uses: Daniel-Marynicz/postgresql-action@master
+      - name: Create, populate & query PostgreSQL
+        
+        uses: Oxfos/action-postgres-setup@v1
         with:
-          postgres_image_tag: 12-alpine
-          app_user: dev
-          app_user_password: 1234
-          app_db: dvdrental
+          POSTGRES_USER: dev
+          POSTGRES_PASSWORD: 1234
+          POSTGRES_DB: dvdrental
+        
       - name: Populate dvdrental Database 
-        run: psql -d dvdrental -f src/test/sample-db/dvdrental/restore.sql -h localhost
+        run: psql -d dvdrental -f src/test/sample-db/dvdrental/restore.sql
         env:
           POSTGRES_USER: dev
           POSTGRES_PASSWORD: "1234"
