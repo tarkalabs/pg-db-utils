@@ -14,7 +14,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: node:10.18-jessie
     services:
       postgres:
         image: postgis/postgis:10-2.5
@@ -28,11 +27,6 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:        
-      - name: Install Postgres CLI
-        run: |
-          apt-get update -y
-          apt-get install -y libpq-dev postgresql-client
-  
       - name: Check out repository code
         uses: actions/checkout@v2
 
