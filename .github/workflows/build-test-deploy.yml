@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: pg-db-utils_build_latest
-          path: ./
+          path: ./out
           
   test:
     runs-on: ubuntu-latest
@@ -48,7 +48,15 @@ jobs:
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
-    steps:        
+    steps:      
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - uses: c-hive/gha-npm-cache@v1
+
+      - name: Install npm dependencies
+        run: npm install
+          
       - name: Download latest build artifact
         uses: actions/download-artifact@v2
         with:
@@ -70,7 +78,15 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'create'
     needs: test
-    steps:        
+    steps:      
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - uses: c-hive/gha-npm-cache@v1
+
+      - name: Install npm dependencies
+        run: npm install
+          
       - name: Download latest build artifact
         uses: actions/download-artifact@v2
         with:
