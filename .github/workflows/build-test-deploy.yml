@@ -37,10 +37,10 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
-      - name: apt-get
+      - name: Install Postgres CLI
         run: |
-          sudo apt-get update -y
-          sudo apt-get install -y libpq-dev postgresql-client
+          apt-get update -y
+          apt-get install -y libpq-dev postgresql-client
           
       - name: Create and Populate dvdrental Database
         run: |
