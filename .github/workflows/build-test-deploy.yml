@@ -15,18 +15,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: node:10.18-jessie
-    services:
-      postgres:
-        image: postgres:11-alpine
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: "postgres"
-          POSTGRES_DB: dvdrental
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    #services:
+    #  postgres:
+    #    image: postgres:11-alpine
+    #    env:
+    #      POSTGRES_USER: postgres
+    #      POSTGRES_PASSWORD: "postgres"
+    #      POSTGRES_DB: dvdrental
+    #    options: >-
+    #      --health-cmd pg_isready
+    #      --health-interval 10s
+    #      --health-timeout 5s
+    #      --health-retries 5
 
     steps:
       - name: Check out repository code
@@ -42,13 +42,18 @@ jobs:
           apt-get update -y
           apt-get install -y libpq-dev postgresql-client
           
-      - name: Create and Populate dvdrental Database
-        run: |
-          createdb -h postgres dvdrental
-          psql -d dvdrental -f src/test/sample-db/dvdrental/restore.sql -h postgres
+      - name: Create dvdrental Database
+        uses: Daniel-Marynicz/postgresql-action@master
+        with:
+          postgres_image_tag: 12-alpine
+          app_user: dev
+          app_user_password: 1234
+          app_db: dvdrental
+      - name: Populate dvdrental Database 
+        run: psql -d dvdrental -f src/test/sample-db/dvdrental/restore.sql -h postgres
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: "postgres"
+          POSTGRES_USER: dev
+          POSTGRES_PASSWORD: "1234"
           POSTGRES_DB: dvdrental
         
       - name: Run tests with JUnit as reporter
