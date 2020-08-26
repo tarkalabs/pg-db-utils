@@ -35,16 +35,13 @@ jobs:
   
       - name: Check out repository code
         uses: actions/checkout@v2
-        
-      - name: ff
-        run: ps aux |grep postgres
 
       - name: Populate dvdrental Database 
         run: psql -d dvdrental -f ~/src/test/sample-db/dvdrental/restore.sql
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTEGRES_HOST: localhost
+          POSTEGRES_HOST: postgres
           POSTGRES_DB: dvdrental
         
       - uses: c-hive/gha-npm-cache@v1
