@@ -28,6 +28,9 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
+      - name: test
+        run: ls -la
+        
       - name: Install Postgres CLI
         run: |
           apt-get update -y
@@ -35,11 +38,6 @@ jobs:
   
       - name: Check out repository code
         uses: actions/checkout@v2
-        
-      - uses: c-hive/gha-npm-cache@v1
-
-      - name: Install npm dependencies
-        run: npm install
 
       - name: Populate dvdrental Database 
         run: psql -d dvdrental -f src/test/sample-db/dvdrental/restore.sql
@@ -48,6 +46,11 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTEGRES_HOST: 127.0.0.1
           POSTGRES_DB: dvdrental
+        
+      - uses: c-hive/gha-npm-cache@v1
+
+      - name: Install npm dependencies
+        run: npm install
         
       - name: Run tests with JUnit as reporter
         run: npm run test:ci
