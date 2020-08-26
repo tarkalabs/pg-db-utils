@@ -5,10 +5,10 @@ import { getStructure } from "..";
 describe("structure", () => {
   it("should return current path", async (done) => {
     Connection.setup({
-      label:"Localhost",
-      host:"127.0.0.1",
-      user:"dev",
-      password:"",
+      label: "Localhost",
+      host: ((process.env.CI_ENV)? "postgres": "127.0.0.1"),
+      user:"postgres",
+      password:"postgres",
       port:5432,
       database:"dvdrental"
     });
