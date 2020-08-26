@@ -17,39 +17,30 @@ jobs:
     container: node:10.18-jessie
     services:
       postgres:
-        # Docker Hub image
-        image: postgres
+        image: postgres:10.8
         env:
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          POSTGRES_DB: dvdrental
         ports:
-            # Maps tcp port 5432 on service container to the host
           - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - name: Install Postgres CLI
         run: |
           apt-get update -y
           apt-get install -y libpq-dev postgresql-client
-      - name: Create, populate & query PostgreSQL
-        
-        uses: Oxfos/action-postgres-setup@v1
-        with:
-          POSTGRES_USER: dev
-          POSTGRES_PASSWORD: 1234
-          POSTGRES_DB: dvdrental
         
       - name: Populate dvdrental Database 
         run: psql -d dvdrental -f src/test/sample-db/dvdrental/restore.sql
         env:
-          POSTGRES_USER: dev
-          POSTGRES_PASSWORD: "1234"
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTEGRES_HOST: 127.0.0.1
           POSTGRES_DB: dvdrental
+  
       - name: Check out repository code
         uses: actions/checkout@v2
         
