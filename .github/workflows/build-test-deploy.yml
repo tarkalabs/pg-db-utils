@@ -27,10 +27,7 @@ jobs:
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
-    steps:
-      - name: test
-        run: ls -la
-        
+    steps:        
       - name: Install Postgres CLI
         run: |
           apt-get update -y
@@ -38,6 +35,10 @@ jobs:
   
       - name: Check out repository code
         uses: actions/checkout@v2
+      - name: test
+        run: ls -la
+      - name: test
+        run: ~/ls -la
 
       - name: Populate dvdrental Database 
         run: psql -d dvdrental -f src/test/sample-db/dvdrental/restore.sql
