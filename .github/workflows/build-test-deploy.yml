@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v2
         
       - name: ff
-        run: psql -h /tmp
+        run: ps aux |grep postgres
 
       - name: Populate dvdrental Database 
         run: psql -d dvdrental -f ~/src/test/sample-db/dvdrental/restore.sql
