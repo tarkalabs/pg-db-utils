@@ -17,7 +17,7 @@ jobs:
     container: node:10.18-jessie
     services:
       postgres:
-        image: postgres:10.8
+        image: postgres:12
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -36,8 +36,9 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
 
-      - name: Populate dvdrental Database 
-        run: psql -d dvdrental -f ~/src/test/sample-db/dvdrental/restore.sql
+      - name: Populate dvdrental Database
+        run: psql 
+        #-d dvdrental -f ~/src/test/sample-db/dvdrental/restore.sql
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
