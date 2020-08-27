@@ -69,9 +69,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: pg-db-utils_build_latest
-          
-      - name: TEst
-        run: ls -la
+          path: ./out
 
       - name: Add NPM AUTH TOKEN to the .npmrc because of Github Actions bug
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
