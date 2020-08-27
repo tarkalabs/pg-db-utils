@@ -11,9 +11,13 @@ import { QueryResults } from '../structure/interfaces';
 export class Connection {
     private static client: Client;
     private static connectionOptions: IConnection;
+    public static ready: boolean = false;
 
-    public static setup(connectionOptions: IConnection) {
+    public static async setup(connectionOptions: IConnection) {
       Connection.connectionOptions = connectionOptions;
+      Connection.client = new Client(Connection.connectionOptions);
+      await Connection.client.connect();
+      Connection.ready = true;
     }
     
     private static disconnect() {
@@ -30,7 +34,7 @@ export class Connection {
     }
 
     public static async runQuery<T>(query: string) {
-      Connection.connect();
+      await Connection.connect();
       try {
         const res: QueryResults | QueryResults[] = await Connection.client.query({ text: query });
         const results: QueryResults[] = Array.isArray(res) ? res : [res];
