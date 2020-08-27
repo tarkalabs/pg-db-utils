@@ -19,6 +19,8 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "dotenv": "^8.2.0",
+    "dotenvrc": "^1.0.1",
     "pg": "^8.2.1"
   },
   "devDependencies": {
@@ -33,6 +35,15 @@
     "typescript": "^3.9.5"
   },
   "files": [
-    "out"
+    "db",
+    "erd",
+    "sql",
+    "structure",
+    "index.js",
+    "index.d.ts",
+    "index.js.map",
+    "package.json",
+    "README.md",
+    "LICENSE"
   ]
 }

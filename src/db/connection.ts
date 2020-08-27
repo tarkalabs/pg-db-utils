@@ -1,12 +1,9 @@
 'use strict'
 
-import * as fs from 'fs';
-import { ClientConfig, Client } from "pg";
+import { Client } from "pg";
 import { IConnection } from './IConnection';
 import { erdFieldsSql } from '../sql/erd-fields';
 import { QueryResults } from '../structure/interfaces';
-
-
 
 export class Connection {
     private static client: Client;
@@ -18,12 +15,12 @@ export class Connection {
       Connection.client = new Client(Connection.connectionOptions);
       try {
         await Connection.client.connect();
+        Connection.ready = true;
       } catch(e) {
         Error (e);
       } finally {
         Connection.client.end();
       }
-      Connection.ready = true;
     }
     
     private static disconnect() {
