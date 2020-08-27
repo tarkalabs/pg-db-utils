@@ -1,6 +1,6 @@
 {
   "name": "@tarkalabs/pg-db-utils",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Utilities for reflecting on postgresql schema",
   "homepage": "https://github.com/tarkalabs/pg-db-utils",
   "main": "./out/index.js",
