@@ -3,8 +3,8 @@
   "version": "1.1.0",
   "description": "Utilities for reflecting on postgresql schema",
   "homepage": "https://github.com/tarkalabs/pg-db-utils",
-  "main": "./out/index.js",
-  "types": "./out/index.d.ts",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "scripts": {
     "test": "jest",
     "test:ci": "jest --ci --runInBand --reporters=default --reporters=jest-junit",
@@ -21,6 +21,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "dotenvrc": "^1.0.1",
+    "pg-connection-string": "^2.3.0",
     "pg": "^8.2.1"
   },
   "devDependencies": {
