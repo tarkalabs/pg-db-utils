@@ -7,8 +7,8 @@ describe("structure", () => {
     await Connection.setup({
       label: "Localhost",
       host: ((process.env.CI_ENV)? "postgres": "127.0.0.1"),
-      user:"dev",
-      password:"1234",
+      user: process.env.PGUSER || "dev",
+      password: process.env.PGPASSWORD || "1234",
       port:5432,
       database:"dvdrental",
       connectionTimeoutMillis: 1000
