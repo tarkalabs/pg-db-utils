@@ -10,4 +10,5 @@ export interface IConnection {
   readonly certPath?: string;
   ssl?: any;
   readonly connectionString?: string;
+  connectionTimeoutMillis?: number;
 }

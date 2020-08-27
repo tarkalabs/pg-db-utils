@@ -16,7 +16,13 @@ export class Connection {
     public static async setup(connectionOptions: IConnection) {
       Connection.connectionOptions = connectionOptions;
       Connection.client = new Client(Connection.connectionOptions);
-      await Connection.client.connect();
+      try {
+        await Connection.client.connect();
+      } catch(e) {
+        Error (e);
+      } finally {
+        Connection.client.end();
+      }
       Connection.ready = true;
     }
     
