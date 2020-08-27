@@ -50,6 +50,8 @@ jobs:
         run: npm run test:ci
         env:
           JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
+          PGPASSWORD: postgres,
+          PGUSER: postgres
 
       - name: Upload build for use in test and deploy
         uses: actions/upload-artifact@v2
