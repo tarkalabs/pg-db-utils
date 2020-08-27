@@ -4,7 +4,7 @@ import { getStructure } from "..";
 
 describe("structure", () => {
   it("should return current path", async (done) => {
-    Connection.setup({
+    await Connection.setup({
       label: "Localhost",
       host: ((process.env.CI_ENV)? "postgres": "127.0.0.1"),
       user:"postgres",
