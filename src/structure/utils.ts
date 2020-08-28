@@ -9,8 +9,14 @@ export class GenerateERD {
   schemas: Map<Schema>;
   functions: Map<Function>;
 
-  public async getSchema() {
-    let results = await Connection.getStructure();
+  public async getSchema(connection: Connection) {
+    let results = await connection.getStructure();
+
+    if (results.message) {
+      console.error("Error: " + results.message);
+      return null;
+    }
+
     let model: ErdModel = new ErdModel(results);
 
     this.parseResults(model);

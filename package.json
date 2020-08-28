@@ -19,10 +19,11 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "deep-equal": "^2.0.3",
     "dotenv": "^8.2.0",
     "dotenvrc": "^1.0.1",
-    "pg-connection-string": "^2.3.0",
-    "pg": "^8.2.1"
+    "pg": "^8.2.1",
+    "pg-connection-string": "^2.3.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",

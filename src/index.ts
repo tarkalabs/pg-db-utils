@@ -5,8 +5,8 @@ import { IConnection } from "./db/IConnection";
 
 export { ErdModel, getStructure, MermaidModel, Connection, IConnection }
 
-const getStructure = async () => {
-  let model = await new GenerateERD().getSchema();
+const getStructure = async (connection: Connection) => {
+  let model = await new GenerateERD().getSchema(connection);
 
   return model;
 }
