@@ -1,25 +1,20 @@
 'use strict'
 
-import { Client } from "pg";
+import { Client, Pool } from "pg";
 import { erdFieldsSql } from '../sql/erd-fields';
 import { QueryResults } from '../structure/interfaces';
+import { IConnection } from "..";
 
 
 export class Connection {
-  private client: Client;
+  private connectionOptions: IConnection;
   public connected: boolean;
+  private client: Client;
 
   // Constructor creates a client with supplied connection options
   constructor(connectionOptions) {
-    this.client = new Client(connectionOptions);
-
-    this.client.on('end', () => {
-      this.connected = false;
-    });
-    
-    this.client.on('error', err => {
-      console.error('@tarkalabs/pg-db-utils has encountered an error: ', err.stack)
-    });
+    this.connectionOptions = connectionOptions;
+    this.client = new Client(this.connectionOptions);
   }
 
   // Test Connection tests the clients connectionOptions
@@ -41,6 +36,17 @@ export class Connection {
   // Connect returns true if the connection was successful
   public async connect(): Promise<boolean> {
     try {
+      if (this.connected) {
+        Error ("There is already an established client connection.");
+      }
+      this.client = new Client(this.connectionOptions);
+      this.client.on('end', () => {
+        this.connected = false;
+      });
+      
+      this.client.on('error', err => {
+        console.error('@tarkalabs/pg-db-utils has encountered an error: ', err.stack)
+      });
       await this.client.connect();
     } catch (err) {
       if (process.env.DEBUG) {
