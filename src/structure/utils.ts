@@ -22,6 +22,8 @@ export class GenerateERD {
     this.parseResults(model);
     this.generateTreeStructure(model);
 
+    model.label = connection.getHostName();
+
     /* comment this line out for simple tree view of schemas
     let str = "";
     for (let key in model.dbStructure.schemas.items) {
@@ -104,6 +106,7 @@ export class GenerateERD {
 }
 
 export class ErdModel {
+  label: string;
   dbStructure: DbStructure;
   queryResults: QueryResults;
   tree: PgTree;

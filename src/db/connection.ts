@@ -4,7 +4,8 @@ import { Client, Pool } from "pg";
 import { erdFieldsSql } from '../sql/erd-fields';
 import { QueryResults } from '../structure/interfaces';
 import { IConnection } from "..";
-
+var parse = require('pg-connection-string').parse;
+ 
 
 export class Connection {
   private connectionOptions: IConnection;
@@ -15,6 +16,17 @@ export class Connection {
   constructor(connectionOptions) {
     this.connectionOptions = connectionOptions;
     this.client = new Client(this.connectionOptions);
+  }
+
+  public getHostName() {
+    if (this.connectionOptions.label) {
+      return this.connectionOptions.label;
+    }
+    if (this.connectionOptions.connectionString) {
+      let connectionString = parse(this.connectionOptions.connectionString);
+      return connectionString.host;
+    }
+    return (this.connectionOptions.host == '127.0.0.1')? "Localhost": this.connectionOptions.host;
   }
 
   // Test Connection tests the clients connectionOptions
