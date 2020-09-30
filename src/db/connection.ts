@@ -45,9 +45,16 @@ export class Connection {
     return true;
   }
 
+  public async getDatabases() {
+    return this.runQuery('SELECT datname FROM pg_database WHERE datistemplate = false;');
+  }
+
   // Connect returns true if the connection was successful
   public async connect(): Promise<boolean> {
     try {
+      if (!this.connectionOptions || this.connectionOptions == null) {
+        Error ("This connection has been destroyed and cannot reconnect to the database.");
+      }
       if (this.connected) {
         Error ("There is already an established client connection.");
       }
@@ -121,5 +128,10 @@ export class Connection {
     } catch (e) {
       console.error(e);
     }
-  }   
+  }  
+  
+  public async destroy() {
+    this.client = null;
+    this.connectionOptions = null;
+  }
 }
